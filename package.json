@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@orbitdb/core": "^2.2.0",
     "@radix-ui/react-icons": "^1.3.0",
     "@radix-ui/react-slot": "^1.1.0",
     "@stacks/connect": "^7.7.1",
@@ -17,9 +18,13 @@
     "axios": "^1.7.7",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "framer-motion": "^11.5.6",
+    "ipfs-core": "^0.18.1",
     "lucide-react": "^0.441.0",
     "next": "14.2.13",
     "next-themes": "^0.3.0",
+    "orbit-db": "^0.29.0",
+    "orbit-db-keystore": "^2.0.0",
     "react": "^18",
     "react-dom": "^18",
     "sonner": "^1.5.0",
@@ -28,13 +33,14 @@
     "winston": "^3.14.2"
   },
   "devDependencies": {
-    "typescript": "^5",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
-    "postcss": "^8",
-    "tailwindcss": "^3.4.1",
+    "autoprefixer": "^10.4.20",
     "eslint": "^8",
-    "eslint-config-next": "14.2.13"
+    "eslint-config-next": "14.2.13",
+    "postcss": "^8.4.47",
+    "tailwindcss": "^3.4.12",
+    "typescript": "^5"
   }
 }
