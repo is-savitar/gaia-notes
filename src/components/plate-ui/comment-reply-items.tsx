@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-
 import {
   SCOPE_ACTIVE_COMMENT,
   useCommentReplies,
@@ -15,7 +14,7 @@ export function CommentReplyItems() {
   return (
     <>
       {Object.keys(commentReplies).map((id) => (
-        <CommentItem key={id} commentId={id} />
+        <CommentItem commentId={id} key={id} />
       ))}
     </>
   );

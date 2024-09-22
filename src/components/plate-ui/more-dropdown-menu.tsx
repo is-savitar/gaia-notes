@@ -1,7 +1,4 @@
 import React from 'react';
-
-import type { DropdownMenuProps } from '@radix-ui/react-dropdown-menu';
-
 import {
   SubscriptPlugin,
   SuperscriptPlugin,
@@ -19,6 +16,8 @@ import {
 } from './dropdown-menu';
 import { ToolbarButton } from './toolbar';
 
+import type { DropdownMenuProps } from '@radix-ui/react-dropdown-menu';
+
 export function MoreDropdownMenu(props: DropdownMenuProps) {
   const editor = useEditorRef();
   const openState = useOpenState();
@@ -32,14 +31,14 @@ export function MoreDropdownMenu(props: DropdownMenuProps) {
       </DropdownMenuTrigger>
 
       <DropdownMenuContent
-        className="flex max-h-[500px] min-w-[180px] flex-col gap-0.5 overflow-y-auto"
         align="start"
+        className="flex max-h-[500px] min-w-[180px] flex-col gap-0.5 overflow-y-auto"
       >
         <DropdownMenuItem
           onSelect={() => {
             editor.tf.toggle.mark({
-              key: SuperscriptPlugin.key,
               clear: [SubscriptPlugin.key, SuperscriptPlugin.key],
+              key: SuperscriptPlugin.key,
             });
             focusEditor(editor);
           }}
@@ -51,8 +50,8 @@ export function MoreDropdownMenu(props: DropdownMenuProps) {
         <DropdownMenuItem
           onSelect={() => {
             editor.tf.toggle.mark({
-              key: SubscriptPlugin.key,
               clear: [SuperscriptPlugin.key, SubscriptPlugin.key],
+              key: SubscriptPlugin.key,
             });
             focusEditor(editor);
           }}

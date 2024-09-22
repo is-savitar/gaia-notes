@@ -37,6 +37,7 @@
     "@udecode/plate-comments": "^38.0.1",
     "@udecode/plate-common": "^38.0.6",
     "@udecode/plate-csv": "^38.0.6",
+    "@udecode/plate-cursor": "^38.0.0",
     "@udecode/plate-date": "^38.0.1",
     "@udecode/plate-dnd": "^38.0.0",
     "@udecode/plate-docx": "^38.0.6",

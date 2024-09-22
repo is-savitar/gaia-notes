@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-
 import { cn, withRef } from '@udecode/cn';
 import { PlateElement } from '@udecode/plate-common/react';
 import { getMentionOnSelectItem } from '@udecode/plate-mention';
@@ -21,17 +20,17 @@ export const MentionInputElement = withRef<typeof PlateElement>(
 
     return (
       <PlateElement
-        ref={ref}
         as="span"
         data-slate-value={element.value}
+        ref={ref}
         {...props}
       >
         <InlineCombobox
-          value={search}
           element={element}
           setValue={setSearch}
           showTrigger={false}
           trigger="@"
+          value={search}
         >
           <span
             className={cn(
@@ -48,8 +47,8 @@ export const MentionInputElement = withRef<typeof PlateElement>(
             {MENTIONABLES.map((item) => (
               <InlineComboboxItem
                 key={item.key}
-                value={item.text}
                 onClick={() => onSelectItem(editor, item, search)}
+                value={item.text}
               >
                 {item.text}
               </InlineComboboxItem>

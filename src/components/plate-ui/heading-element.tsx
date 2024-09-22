@@ -1,5 +1,4 @@
 import React from 'react';
-
 import { withRef, withVariants } from '@udecode/cn';
 import { PlateElement } from '@udecode/plate-common/react';
 import { cva } from 'class-variance-authority';
@@ -34,10 +33,10 @@ export const HeadingElement = withRef<typeof HeadingElementVariants>(
 
     return (
       <HeadingElementVariants
-        ref={ref}
         asChild
-        variant={variant}
         isFirstBlock={element === editor.children[0]}
+        ref={ref}
+        variant={variant}
         {...props}
       >
         <Element>{children}</Element>
