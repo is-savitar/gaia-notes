@@ -1,14 +1,14 @@
 import React from 'react';
-
 import { cn } from '@udecode/cn';
-import { ParagraphPlugin } from '@udecode/plate-common/react';
 import {
-  type PlaceholderProps,
   createNodeHOC,
   createNodesHOC,
+  ParagraphPlugin,
   usePlaceholderState,
 } from '@udecode/plate-common/react';
 import { HEADING_KEYS } from '@udecode/plate-heading';
+
+import type { PlaceholderProps } from '@udecode/plate-common/react';
 
 export const Placeholder = (props: PlaceholderProps) => {
   const { children, nodeProps, placeholder } = props;
@@ -37,16 +37,16 @@ export const withPlaceholdersPrimitive = createNodesHOC(Placeholder);
 export const withPlaceholders = (components: any) =>
   withPlaceholdersPrimitive(components, [
     {
-      key: ParagraphPlugin.key,
       hideOnBlur: true,
+      key: ParagraphPlugin.key,
       placeholder: 'Type a paragraph',
       query: {
         maxLevel: 1,
       },
     },
     {
-      key: HEADING_KEYS.h1,
       hideOnBlur: false,
+      key: HEADING_KEYS.h1,
       placeholder: 'Untitled',
     },
   ]);

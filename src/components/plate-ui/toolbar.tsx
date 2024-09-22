@@ -1,15 +1,16 @@
 'use client';
 
 import * as React from 'react';
-
 import * as ToolbarPrimitive from '@radix-ui/react-toolbar';
 import { cn, withCn, withRef, withVariants } from '@udecode/cn';
-import { type VariantProps, cva } from 'class-variance-authority';
+import { cva } from 'class-variance-authority';
 
 import { Icons } from '@/components/icons';
 
 import { Separator } from './separator';
 import { withTooltip } from './tooltip';
+
+import type { VariantProps } from 'class-variance-authority';
 
 export const Toolbar = withCn(
   ToolbarPrimitive.Root,
@@ -77,11 +78,10 @@ const ToolbarButton = withTooltip(
       return typeof pressed === 'boolean' ? (
         <ToolbarToggleGroup
           disabled={props.disabled}
-          value="single"
           type="single"
+          value="single"
         >
           <ToolbarToggleItem
-            ref={ref}
             className={cn(
               toolbarButtonVariants({
                 size,
@@ -90,6 +90,7 @@ const ToolbarButton = withTooltip(
               isDropdown && 'my-1 justify-between pr-1',
               className
             )}
+            ref={ref}
             value={pressed ? 'single' : ''}
             {...props}
           >
@@ -107,7 +108,6 @@ const ToolbarButton = withTooltip(
         </ToolbarToggleGroup>
       ) : (
         <ToolbarPrimitive.Button
-          ref={ref}
           className={cn(
             toolbarButtonVariants({
               size,
@@ -116,6 +116,7 @@ const ToolbarButton = withTooltip(
             isDropdown && 'pr-1',
             className
           )}
+          ref={ref}
           {...props}
         >
           {children}
@@ -145,7 +146,7 @@ export const ToolbarGroup = withRef<
   if (!childArr || childArr.length === 0) return null;
 
   return (
-    <div ref={ref} className={cn('flex', className)}>
+    <div className={cn('flex', className)} ref={ref}>
       {!noSeparator && (
         <div className="h-full py-1">
           <Separator orientation="vertical" />

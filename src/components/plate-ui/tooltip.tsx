@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-
 import * as TooltipPrimitive from '@radix-ui/react-tooltip';
 import { withCn, withProps } from '@udecode/cn';
 
@@ -26,6 +25,7 @@ export function withTooltip<
   return React.forwardRef<
     React.ElementRef<T>,
     {
+      tooltip?: React.ReactNode;
       tooltipContentProps?: Omit<
         React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Content>,
         'children'
@@ -34,7 +34,6 @@ export function withTooltip<
         React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Root>,
         'children'
       >;
-      tooltip?: React.ReactNode;
     } & React.ComponentPropsWithoutRef<T>
   >(function ExtendComponent(
     { tooltip, tooltipContentProps, tooltipProps, ...props },

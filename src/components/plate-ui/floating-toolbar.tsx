@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-
 import { cn, withRef } from '@udecode/cn';
 import {
   PortalBody,
@@ -10,7 +9,6 @@ import {
   useEventEditorSelectors,
 } from '@udecode/plate-common/react';
 import {
-  type FloatingToolbarState,
   flip,
   offset,
   useFloatingToolbar,
@@ -18,6 +16,8 @@ import {
 } from '@udecode/plate-floating';
 
 import { Toolbar } from './toolbar';
+
+import type { FloatingToolbarState } from '@udecode/plate-floating';
 
 export const FloatingToolbar = withRef<
   typeof Toolbar,
@@ -63,10 +63,10 @@ export const FloatingToolbar = withRef<
   return (
     <PortalBody>
       <Toolbar
-        ref={ref}
         className={cn(
           'absolute z-50 whitespace-nowrap border bg-popover px-1 opacity-100 shadow-md print:hidden'
         )}
+        ref={ref}
         {...rootProps}
         {...props}
       >

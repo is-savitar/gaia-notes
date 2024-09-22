@@ -1,7 +1,4 @@
 import React from 'react';
-
-import type { DropdownMenuProps } from '@radix-ui/react-dropdown-menu';
-
 import {
   focusEditor,
   useEditorReadOnly,
@@ -20,6 +17,8 @@ import {
   useOpenState,
 } from './dropdown-menu';
 import { ToolbarButton } from './toolbar';
+
+import type { DropdownMenuProps } from '@radix-ui/react-dropdown-menu';
 
 export function ModeDropdownMenu(props: DropdownMenuProps) {
   const editor = useEditorRef();
@@ -51,18 +50,17 @@ export function ModeDropdownMenu(props: DropdownMenuProps) {
       <DropdownMenuTrigger asChild>
         <ToolbarButton
           className="min-w-[auto] lg:min-w-[130px]"
+          isDropdown
           pressed={openState.open}
           tooltip="Editing mode"
-          isDropdown
         >
           {item[value]}
         </ToolbarButton>
       </DropdownMenuTrigger>
 
-      <DropdownMenuContent className="min-w-[180px]" align="start">
+      <DropdownMenuContent align="start" className="min-w-[180px]">
         <DropdownMenuRadioGroup
           className="flex flex-col gap-0.5"
-          value={value}
           onValueChange={(newValue) => {
             if (newValue !== 'viewing') {
               setReadOnly(false);
@@ -78,6 +76,7 @@ export function ModeDropdownMenu(props: DropdownMenuProps) {
               return;
             }
           }}
+          value={value}
         >
           <DropdownMenuRadioItem value="editing">
             {item.editing}

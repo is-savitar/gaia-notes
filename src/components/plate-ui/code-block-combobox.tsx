@@ -1,9 +1,6 @@
 'use client';
 
-/* eslint-disable unicorn/prefer-export-from */
-
 import React, { useState } from 'react';
-
 import { cn } from '@udecode/cn';
 import {
   useCodeBlockCombobox,
@@ -137,26 +134,18 @@ export function CodeBlockCombobox() {
   const { commandItemProps } = useCodeBlockCombobox(state);
 
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState('');
 
   if (state.readOnly) return null;
 
-  const items = languages.filter(
-    (language) =>
-      !value ||
-      language.label.toLowerCase().includes(value.toLowerCase()) ||
-      language.value.toLowerCase().includes(value.toLowerCase())
-  );
-
   return (
-    <Popover open={open} onOpenChange={setOpen}>
+    <Popover onOpenChange={setOpen} open={open}>
       <PopoverTrigger asChild>
         <Button
+          aria-expanded={open}
+          className="h-5 justify-between px-1 text-xs"
+          role="combobox"
           size="xs"
           variant="ghost"
-          className="h-5 justify-between px-1 text-xs"
-          aria-expanded={open}
-          role="combobox"
         >
           {state.value
             ? languages.find((language) => language.value === state.value)
@@ -166,24 +155,20 @@ export function CodeBlockCombobox() {
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[200px] p-0">
-        <Command shouldFilter={false}>
-          <CommandInput
-            value={value}
-            onValueChange={(value) => setValue(value)}
-            placeholder="Search language..."
-          />
+        <Command>
+          <CommandInput placeholder="Search language..." />
           <CommandEmpty>No language found.</CommandEmpty>
 
           <CommandList>
-            {items.map((language) => (
+            {languages.map((language) => (
               <CommandItem
-                key={language.value}
                 className="cursor-pointer"
-                value={language.value}
+                key={language.value}
                 onSelect={(_value) => {
                   commandItemProps.onSelect(_value);
                   setOpen(false);
                 }}
+                value={language.value}
               >
                 <Icons.check
                   className={cn(

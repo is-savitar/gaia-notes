@@ -1,7 +1,4 @@
 import React from 'react';
-
-import type { DropdownMenuProps } from '@radix-ui/react-dropdown-menu';
-
 import { BlockquotePlugin } from '@udecode/plate-block-quote/react';
 import {
   collapseSelection,
@@ -9,8 +6,8 @@ import {
   isBlock,
 } from '@udecode/plate-common';
 import {
-  ParagraphPlugin,
   focusEditor,
+  ParagraphPlugin,
   useEditorRef,
   useEditorSelector,
 } from '@udecode/plate-common/react';
@@ -28,6 +25,8 @@ import {
   useOpenState,
 } from './dropdown-menu';
 import { ToolbarButton } from './toolbar';
+
+import type { DropdownMenuProps } from '@radix-ui/react-dropdown-menu';
 
 const items = [
   {
@@ -110,21 +109,20 @@ export function TurnIntoDropdownMenu(props: DropdownMenuProps) {
       <DropdownMenuTrigger asChild>
         <ToolbarButton
           className="lg:min-w-[130px]"
+          isDropdown
           pressed={openState.open}
           tooltip="Turn into"
-          isDropdown
         >
           <SelectedItemIcon className="size-5 lg:hidden" />
           <span className="max-lg:hidden">{selectedItemLabel}</span>
         </ToolbarButton>
       </DropdownMenuTrigger>
 
-      <DropdownMenuContent className="min-w-0" align="start">
+      <DropdownMenuContent align="start" className="min-w-0">
         <DropdownMenuLabel>Turn into</DropdownMenuLabel>
 
         <DropdownMenuRadioGroup
           className="flex flex-col gap-0.5"
-          value={value}
           onValueChange={(type) => {
             // if (type === 'ul' || type === 'ol') {
             //   if (settingsStore.get.checkedId(IndentListPlugin.key)) {
@@ -142,11 +140,12 @@ export function TurnIntoDropdownMenu(props: DropdownMenuProps) {
             collapseSelection(editor);
             focusEditor(editor);
           }}
+          value={value}
         >
           {items.map(({ icon: Icon, label, value: itemValue }) => (
             <DropdownMenuRadioItem
-              key={itemValue}
               className="min-w-[180px]"
+              key={itemValue}
               value={itemValue}
             >
               <Icon className="mr-2 size-5" />

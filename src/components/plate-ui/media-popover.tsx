@@ -1,17 +1,13 @@
 import React, { useEffect } from 'react';
-
-import {
-  type WithRequiredKey,
-  isSelectionExpanded,
-} from '@udecode/plate-common';
+import { isSelectionExpanded } from '@udecode/plate-common';
 import {
   useEditorSelector,
   useElement,
   useRemoveNodeButton,
 } from '@udecode/plate-common/react';
 import {
-  FloatingMedia as FloatingMediaPrimitive,
   floatingMediaActions,
+  FloatingMedia as FloatingMediaPrimitive,
   useFloatingMediaSelectors,
 } from '@udecode/plate-media/react';
 import { useReadOnly, useSelected } from 'slate-react';
@@ -23,6 +19,8 @@ import { CaptionButton } from './caption';
 import { inputVariants } from './input';
 import { Popover, PopoverAnchor, PopoverContent } from './popover';
 import { Separator } from './separator';
+
+import type { WithRequiredKey } from '@udecode/plate-common';
 
 export interface MediaPopoverProps {
   children: React.ReactNode;
@@ -53,7 +51,7 @@ export function MediaPopover({ children, plugin }: MediaPopoverProps) {
   if (readOnly) return <>{children}</>;
 
   return (
-    <Popover open={isOpen} modal={false}>
+    <Popover modal={false} open={isOpen}>
       <PopoverAnchor>{children}</PopoverAnchor>
 
       <PopoverContent
@@ -69,8 +67,8 @@ export function MediaPopover({ children, plugin }: MediaPopoverProps) {
 
               <FloatingMediaPrimitive.UrlInput
                 className={inputVariants({ h: 'sm', variant: 'ghost' })}
-                placeholder="Paste the embed link..."
                 options={{ plugin }}
+                placeholder="Paste the embed link..."
               />
             </div>
           </div>
@@ -84,7 +82,7 @@ export function MediaPopover({ children, plugin }: MediaPopoverProps) {
 
             <CaptionButton variant="ghost">Caption</CaptionButton>
 
-            <Separator orientation="vertical" className="my-1" />
+            <Separator className="my-1" orientation="vertical" />
 
             <Button size="sms" variant="ghost" {...buttonProps}>
               <Icons.delete className="size-4" />

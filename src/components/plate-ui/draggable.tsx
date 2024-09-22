@@ -1,20 +1,9 @@
 'use client';
 
 import React from 'react';
-
-import type { ClassNames, TEditor } from '@udecode/plate-common';
-import type { DropTargetMonitor } from 'react-dnd';
-
 import { cn, withRef } from '@udecode/cn';
-import {
-  type PlateElementProps,
-  useEditorRef,
-} from '@udecode/plate-common/react';
-import {
-  type DragItemNode,
-  useDraggable,
-  useDraggableState,
-} from '@udecode/plate-dnd';
+import { useEditorRef } from '@udecode/plate-common/react';
+import { useDraggable, useDraggableState } from '@udecode/plate-dnd';
 import { BlockSelectionPlugin } from '@udecode/plate-selection/react';
 
 import { Icons } from '@/components/icons';
@@ -25,6 +14,11 @@ import {
   TooltipPortal,
   TooltipTrigger,
 } from './tooltip';
+
+import type { DropTargetMonitor } from 'react-dnd';
+import type { ClassNames, TEditor } from '@udecode/plate-common';
+import type { PlateElementProps } from '@udecode/plate-common/react';
+import type { DragItemNode } from '@udecode/plate-dnd';
 
 export interface DraggableProps
   extends PlateElementProps,
@@ -66,8 +60,8 @@ export interface DraggableProps
   onDropHandler?: (
     editor: TEditor,
     props: {
-      id: string;
       dragItem: DragItemNode;
+      id: string;
       monitor: DropTargetMonitor<DragItemNode, unknown>;
       nodeRef: any;
     }
@@ -115,19 +109,19 @@ export const Draggable = withRef<'div', DraggableProps>(
       droplineProps,
       groupProps,
       gutterLeftProps,
-      previewRef,
       handleRef,
+      previewRef,
     } = useDraggable(state);
 
     return (
       <div
-        ref={ref}
         className={cn(
           'relative',
           isDragging && 'opacity-50',
           'group',
           className
         )}
+        ref={ref}
         {...groupProps}
       >
         <div
@@ -145,9 +139,9 @@ export const Draggable = withRef<'div', DraggableProps>(
               )}
             >
               <div
-                ref={handleRef}
                 className="size-4"
                 data-key={element.id as string}
+                ref={handleRef}
               >
                 {isHovered && <DragHandle />}
               </div>
@@ -155,7 +149,7 @@ export const Draggable = withRef<'div', DraggableProps>(
           </div>
         </div>
 
-        <div ref={previewRef} className={classNames.blockWrapper}>
+        <div className={classNames.blockWrapper} ref={previewRef}>
           {children}
 
           {!!dropLine && (

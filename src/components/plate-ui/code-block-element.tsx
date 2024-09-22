@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-
 import { cn, withRef } from '@udecode/cn';
 import { useCodeBlockElementState } from '@udecode/plate-code-block/react';
 import { PlateElement } from '@udecode/plate-common/react';
@@ -17,8 +16,8 @@ export const CodeBlockElement = withRef<typeof PlateElement>(
 
     return (
       <PlateElement
-        ref={ref}
         className={cn('relative py-1', state.className, className)}
+        ref={ref}
         {...props}
       >
         <pre className="overflow-x-auto rounded-md bg-muted px-6 py-8 font-mono text-sm leading-[normal] [tab-size:2]">

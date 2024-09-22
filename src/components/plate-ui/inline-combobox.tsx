@@ -1,7 +1,4 @@
 import React, {
-  type HTMLAttributes,
-  type ReactNode,
-  type RefObject,
   createContext,
   forwardRef,
   startTransition,
@@ -11,11 +8,7 @@ import React, {
   useMemo,
   useState,
 } from 'react';
-
-import type { PointRef } from 'slate';
-
 import {
-  type ComboboxItemProps,
   Combobox,
   ComboboxItem,
   ComboboxPopover,
@@ -27,12 +20,10 @@ import {
 import { cn } from '@udecode/cn';
 import { filterWords } from '@udecode/plate-combobox';
 import {
-  type UseComboboxInputResult,
   useComboboxInput,
   useHTMLInputCursorState,
 } from '@udecode/plate-combobox/react';
 import {
-  type TElement,
   createPointRef,
   getPointBefore,
   insertText,
@@ -45,8 +36,14 @@ import {
 } from '@udecode/plate-common/react';
 import { cva } from 'class-variance-authority';
 
+import type { HTMLAttributes, ReactNode, RefObject } from 'react';
+import type { ComboboxItemProps } from '@ariakit/react';
+import type { UseComboboxInputResult } from '@udecode/plate-combobox/react';
+import type { TElement } from '@udecode/plate-common';
+import type { PointRef } from 'slate';
+
 type FilterFn = (
-  item: { value: string; keywords?: string[] },
+  item: { keywords?: string[]; value: string },
   search: string
 ) => boolean;
 
@@ -133,7 +130,6 @@ const InlineCombobox = ({
   const { props: inputProps, removeInput } = useComboboxInput({
     cancelInputOnBlur: false,
     cursorState,
-    ref: inputRef,
     onCancelInput: (cause) => {
       if (cause !== 'backspace') {
         insertText(editor, trigger + value, {
@@ -147,6 +143,7 @@ const InlineCombobox = ({
         });
       }
     },
+    ref: inputRef,
   });
 
   const [hasEmpty, setHasEmpty] = useState(false);
@@ -236,20 +233,20 @@ const InlineComboboxInput = forwardRef<
 
       <span className="relative min-h-[1lh]">
         <span
-          className="invisible overflow-hidden text-nowrap"
           aria-hidden="true"
+          className="invisible overflow-hidden text-nowrap"
         >
           {value || '\u200B'}
         </span>
 
         <Combobox
-          ref={ref}
+          autoSelect
           className={cn(
             'absolute left-0 top-0 size-full bg-transparent outline-none',
             className
           )}
+          ref={ref}
           value={value}
-          autoSelect
           {...inputProps}
           {...props}
         />

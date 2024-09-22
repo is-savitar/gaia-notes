@@ -1,4 +1,4 @@
-import { PlateEditor } from "@/_components/post/plate-editor";
+import PlateEditor from "@/_components/post/plate-editor";
 
 const PostBlog = () => {
   return (

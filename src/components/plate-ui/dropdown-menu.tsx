@@ -2,7 +2,6 @@
 
 import * as React from 'react';
 import { useCallback, useState } from 'react';
-
 import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu';
 import {
   cn,
@@ -17,15 +16,10 @@ import { cva } from 'class-variance-authority';
 import { Icons } from '@/components/icons';
 
 export const DropdownMenu = DropdownMenuPrimitive.Root;
-
 export const DropdownMenuTrigger = DropdownMenuPrimitive.Trigger;
-
 export const DropdownMenuGroup = DropdownMenuPrimitive.Group;
-
 export const DropdownMenuPortal = DropdownMenuPrimitive.Portal;
-
 export const DropdownMenuSub = DropdownMenuPrimitive.Sub;
-
 export const DropdownMenuRadioGroup = DropdownMenuPrimitive.RadioGroup;
 
 export const DropdownMenuSubTrigger = withRef<
@@ -33,7 +27,7 @@ export const DropdownMenuSubTrigger = withRef<
   {
     inset?: boolean;
   }
->(({ children, className, inset, ...props }, ref) => (
+>(({ className, inset, children, ...props }, ref) => (
   <DropdownMenuPrimitive.SubTrigger
     ref={ref}
     className={cn(
@@ -55,10 +49,10 @@ export const DropdownMenuSubContent = withCn(
 );
 
 const DropdownMenuContentVariants = withProps(DropdownMenuPrimitive.Content, {
+  sideOffset: 4,
   className: cn(
     'z-50 min-w-32 overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2'
   ),
-  sideOffset: 4,
 });
 
 export const DropdownMenuContent = withRef<
@@ -91,7 +85,7 @@ export const DropdownMenuItem = withVariants(
 
 export const DropdownMenuCheckboxItem = withRef<
   typeof DropdownMenuPrimitive.CheckboxItem
->(({ children, className, ...props }, ref) => (
+>(({ className, children, ...props }, ref) => (
   <DropdownMenuPrimitive.CheckboxItem
     ref={ref}
     className={cn(
@@ -115,7 +109,7 @@ export const DropdownMenuRadioItem = withRef<
   {
     hideIcon?: boolean;
   }
->(({ children, className, hideIcon, ...props }, ref) => (
+>(({ className, children, hideIcon, ...props }, ref) => (
   <DropdownMenuPrimitive.RadioItem
     ref={ref}
     className={cn(
