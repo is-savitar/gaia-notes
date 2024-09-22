@@ -6,17 +6,19 @@ import slugify from "slugify";
 
 const Categories = () => {
   return (
-    <div className="mx-auto flex gap-3 max-w-[1200px] border-b pb-3 px-3 relative">
-      {categories.map((category, index) => (
-        <Button key={index} variant={"ghost"} asChild>
-          <Link
-            href={`/?category=${slugify(category.toLowerCase())}`}
-            className="text-[#6b6b6b] text-base"
-          >
-            {category}
-          </Link>
-        </Button>
-      ))}
+    <div className="mx-auto flex gap-2 max-w-[1200px] border-b pb-3 px-3 relative">
+      <div className=" overflow-scroll">
+        {categories.map((category, index) => (
+          <Button key={index} variant={"ghost"} asChild>
+            <Link
+              href={`/?category=${slugify(category.toLowerCase())}`}
+              className="text-[#6b6b6b] text-base"
+            >
+              {category}
+            </Link>
+          </Button>
+        ))}
+      </div>
     </div>
   );
 };

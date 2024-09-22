@@ -1,11 +1,17 @@
 import { UUID } from "crypto";
 
+interface Author {
+  name: string;
+  id: UUID;
+  image: string;
+  username: string;
+}
+
 export interface BlogSchema {
-  author: string;
-  author_id: UUID;
+  author: Author;
   title: string;
   cover_image: string;
-  created_at: Date;
+  created_at: string;
   min_read: number;
   tagline: string;
 }
