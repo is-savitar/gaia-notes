@@ -79,6 +79,7 @@
     "next-themes": "^0.3.0",
     "orbit-db": "^0.29.0",
     "orbit-db-keystore": "^2.0.0",
+    "prismjs": "^1.29.0",
     "react": "^18",
     "react-day-picker": "^9.1.1",
     "react-dnd": "^16.0.1",

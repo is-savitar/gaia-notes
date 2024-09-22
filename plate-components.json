@@ -2,7 +2,7 @@
   "$schema": "https://ui.shadcn.com/schema.json",
   "aliases": {
     "components": "@/components",
-    "ui": "@/components/ui"
+    "ui": "@/components/plate-ui"
   },
   "rsc": true,
   "style": "default",
@@ -14,3 +14,4 @@
     "prefix": ""
   }
 }
+
