@@ -1,4 +1,4 @@
-import { TooltipProvider } from "@/components/ui/tooltip";
+import { TooltipProvider } from "@/components/plate-ui/tooltip";
 import React from "react";
 
 export default function PostLayout({
