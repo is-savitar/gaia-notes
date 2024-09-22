@@ -7,7 +7,7 @@ import slugify from "slugify";
 const Categories = () => {
   return (
     <div className="mx-auto flex gap-2 max-w-[1200px] border-b pb-3 px-3 relative">
-      <div className=" overflow-scroll">
+      <div className="">
         {categories.map((category, index) => (
           <Button key={index} variant={"ghost"} asChild>
             <Link

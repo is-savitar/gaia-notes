@@ -14,4 +14,5 @@ export interface BlogSchema {
   created_at: string;
   min_read: number;
   tagline: string;
+  category: string[];
 }

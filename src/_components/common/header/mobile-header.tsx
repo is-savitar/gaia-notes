@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import * as React from "react";
 import { cn } from "@/lib/utils";
 import { Menu, X } from "lucide-react";
+import UserDropdown from "./user-dropdown";
 
 export const MobileHeader = ({
   Logo,
@@ -40,14 +41,17 @@ export const MobileHeader = ({
     >
       <div className="flex justify-between items-center pb-2">
         {Logo}
-        <Button
-          onClick={() => setIsOpen(!isOpen)}
-          size="icon"
-          className="rounded-xl"
-          variant="outline"
-        >
-          {isOpen ? <X /> : <Menu />}
-        </Button>
+        <div className="flex items-center gap-3">
+          <UserDropdown />
+          <Button
+            onClick={() => setIsOpen(!isOpen)}
+            size="icon"
+            className="rounded-xl"
+            variant="outline"
+          >
+            {isOpen ? <X /> : <Menu />}
+          </Button>
+        </div>
       </div>
 
       <dialog

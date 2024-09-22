@@ -5,7 +5,7 @@ import Link from "next/link";
 
 const BlogCard = ({ blog }: { blog: BlogSchema }) => {
   return (
-    <div className="flex gap-6 py-4 border-b">
+    <div className="flex gap-10 py-4 border-b">
       <div className="flex flex-col gap-4">
         <div className="flex items-center gap-2">
           <CircularImage
@@ -15,14 +15,14 @@ const BlogCard = ({ blog }: { blog: BlogSchema }) => {
             className="rounded-full object-cover"
           />
           <Link
-            className="hover:underline text-xs text-black"
+            className="hover:underline text-xs text-[#191919]"
             href={blog.author.username}
           >
             {blog.author.name}
           </Link>
         </div>
-        <h3 className="text-2xl">{blog.title}</h3>
-        <p>{blog.tagline}</p>
+        <h3 className="text-2xl font-bold">{blog.title}</h3>
+        <p className="text-cod-gray">{blog.tagline}</p>
         <div>
           <div></div>
           <div></div>
