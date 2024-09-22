@@ -4,6 +4,7 @@ import { LogoLink } from "../logo";
 import { Header as HeaderTemplate } from "./header";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { Bell, SquarePen } from "lucide-react";
 
 const headerLinks = [
   { name: "Features", href: "/#features" },
@@ -23,16 +24,16 @@ const icons = [
     href: "",
   },
 ];
-const HeaderLink = (props: { href: string; name: string }) => {
-  return (
-    <Link
-      href={props.href}
-      className="text-[#151515] hover:text-[#5845EE] transition-colors duration-200"
-    >
-      {props.name}
-    </Link>
-  );
-};
+// const HeaderLink = (props: { href: string; name: string }) => {
+//   return (
+//     <Link
+//       href={props.href}
+//       className="text-[#151515] hover:text-[#5845EE] transition-colors duration-200"
+//     >
+//       {/* {props.name} */}
+//     </Link>
+//   );
+// };
 
 export const Header = ({
   variant = "centered",
@@ -45,9 +46,18 @@ export const Header = ({
     sticky={true}
     desktopItems={
       <div className="flex items-center gap-3">
-        {headerLinks.map((link, i) => (
-          <HeaderLink key={i} href={link.href} name={link.name} />
-        ))}
+        <Link
+          href={"/post"}
+          className="font-light items-center flex gap-2 text-cod-gray"
+        >
+          <SquarePen size={17} /> Write
+        </Link>
+        <Link href={"/notification"} className="font-light text-cod-gray">
+          <Bell size={18} />
+        </Link>
+        {/* {headerLinks.map((link, i) => ( */}
+        {/*   <HeaderLink key={i} href={link.href} name={link.name} /> */}
+        {/* ))} */}
       </div>
     }
     mobileItems={({ setIsOpen }) => (
