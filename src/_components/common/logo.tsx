@@ -1,10 +1,10 @@
 "use client";
-import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { PROJECT_NAME } from "@/lib/constants";
+import CircularImage from "@/components/ui/circular-image";
 
 export const LogoLink = ({ footer = false }: { footer?: boolean }) => {
   const [showText, setShowText] = useState(false);
@@ -21,11 +21,10 @@ export const LogoLink = ({ footer = false }: { footer?: boolean }) => {
         animate={{ x: showText ? 0 : 0 }}
         transition={{ duration: 0.5 }}
       >
-        <Image
-          src={"/logo.png"}
-          alt=""
-          width={30}
-          height={30}
+        <CircularImage
+          src={"/logo.jpg"}
+          alt="StacksInk Logo"
+          size={40}
           className="rounded-lg"
         />
       </motion.div>

@@ -5,6 +5,7 @@ import { Header as HeaderTemplate } from "./header";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Bell, SquarePen } from "lucide-react";
+import UserDropdown from "./user-dropdown";
 
 const headerLinks = [
   { name: "Features", href: "/#features" },
@@ -55,6 +56,7 @@ export const Header = ({
         <Link href={"/notification"} className="font-light text-cod-gray">
           <Bell size={18} />
         </Link>
+        <UserDropdown />
         {/* {headerLinks.map((link, i) => ( */}
         {/*   <HeaderLink key={i} href={link.href} name={link.name} /> */}
         {/* ))} */}
