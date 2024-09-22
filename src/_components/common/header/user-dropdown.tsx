@@ -16,7 +16,7 @@ const UserDropdown = () => {
       <DropdownMenuTrigger asChild>
         <Avatar>
           <AvatarImage src="https://github.com/shadcn.png" />
-          <AvatarFallback>S</AvatarFallback>
+          <AvatarFallback>SA</AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">
