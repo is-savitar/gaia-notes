@@ -3,17 +3,10 @@ import React, { useEffect, useState } from "react";
 import { AppConfig, showConnect, UserSession } from "@stacks/connect";
 import { Button } from "@/components/ui/button";
 import { LucideWallet } from "lucide-react";
-import { Storage } from "@stacks/storage";
-// import { storage } from "@/lib/utils/storage";
+import { postUser, validateField } from "@/_lib/queries/users";
 
-const privateKey =
-  "896adae13a1bf88db0b2ec94339b62382ec6f34cd7e2ff8abae7ec271e05f9d8";
 const appConfig = new AppConfig(["store_write", "publish_data"]);
 export const userSession = new UserSession({ appConfig });
-userSession.store.getSessionData().userData = {
-  appPrivateKey: privateKey,
-};
-const storage = new Storage({ userSession });
 
 function authenticate() {
   showConnect({
@@ -37,46 +30,38 @@ const ConnectWallet = () => {
   const [mounted, setMounted] = useState(false);
   const [userData, setUserData] = useState<any>(null);
 
-  const saveUserDataToGaia = async (userData: any) => {
-    try {
-      await storage.putFile("user_data.json", JSON.stringify(userData), {
-        encrypt: true,
-      });
-      // logger.info("User data saved to gaia");
-      console.log("User data saved to gaia");
-    } catch (err) {
-      // logger.error("Failed to save user data to Gaia", err);
-      console.log("Failed to save user data to Gaia", err);
-    }
-  };
-
   useEffect(() => {
     setMounted(true);
-    if (userSession.isUserSignedIn()) {
-      const data = userSession.loadUserData();
-      setUserData(data);
-      saveUserDataToGaia(userData);
-      // saveUserData(data);
-    }
-  }, [userData]);
 
-  const saveUserData = async (userData: any) => {
-    console.log("Saving user data...");
-    try {
-      const response = await fetch("/auth/session", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ userData }),
-      });
-      if (!response.ok) {
-        throw new Error("Failed to save user data");
+    const handleUserSession = async () => {
+      if (userSession.isUserSignedIn()) {
+        const data = userSession.loadUserData();
+        console.log(data);
+        setUserData(data);
+        const res = await validateField(
+          "stx_address_mainnet",
+          data.profile.stxAddress.mainnet,
+        );
+        console.log(res, "Konichiwa");
+        if (res.status) {
+          console.log("Konichiwa");
+        } else {
+          try {
+            await postUser({
+              stx_address_testnet: data.profile.stxAddress.testnet,
+              stx_address_mainnet: data.profile.stxAddress.mainnet,
+              btc_address_mainnet: data.profile.btcAddress.mainnet,
+              btc_address_testnet: data.profile.btcAddress.testnet,
+            });
+          } catch (err) {
+            console.error("Error posting user data:", err);
+          }
+        }
       }
-    } catch (error) {
-      console.error("Error saving user data:", error);
-    }
-  };
+    };
+
+    handleUserSession();
+  }, []);
 
   if (mounted && userSession.isUserSignedIn() && userData) {
     return (
