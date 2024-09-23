@@ -1,14 +1,14 @@
-import React from 'react';
-import { cn } from '@udecode/cn';
+import React from "react";
+import { cn } from "@udecode/cn";
 import {
   createNodeHOC,
   createNodesHOC,
   ParagraphPlugin,
   usePlaceholderState,
-} from '@udecode/plate-common/react';
-import { HEADING_KEYS } from '@udecode/plate-heading';
+} from "@udecode/plate-common/react";
+import { HEADING_KEYS } from "@udecode/plate-heading";
 
-import type { PlaceholderProps } from '@udecode/plate-common/react';
+import type { PlaceholderProps } from "@udecode/plate-common/react";
 
 export const Placeholder = (props: PlaceholderProps) => {
   const { children, nodeProps, placeholder } = props;
@@ -22,7 +22,7 @@ export const Placeholder = (props: PlaceholderProps) => {
         ...nodeProps,
         className: cn(
           enabled &&
-            'before:absolute before:cursor-text before:opacity-30 before:content-[attr(placeholder)]'
+            "before:absolute before:cursor-text before:opacity-30 before:content-[attr(placeholder)]",
         ),
         placeholder,
       },
@@ -39,7 +39,7 @@ export const withPlaceholders = (components: any) =>
     {
       hideOnBlur: true,
       key: ParagraphPlugin.key,
-      placeholder: 'Type a paragraph',
+      placeholder: "",
       query: {
         maxLevel: 1,
       },
@@ -47,6 +47,6 @@ export const withPlaceholders = (components: any) =>
     {
       hideOnBlur: false,
       key: HEADING_KEYS.h1,
-      placeholder: 'Untitled',
+      placeholder: "Untitled",
     },
   ]);
