@@ -1,15 +1,23 @@
 import { API_URL } from "@/lib/constants";
 import { toast } from "sonner";
+import { getCookies, setCookie } from "cookies-next";
 
-export const postUser = async (data: any) => {
+export const handleAuth = async (
+  stx_address_mainnet: string,
+  password: string,
+  action: string,
+) => {
   try {
-    const url = `${API_URL}/users`;
+    const url = `${API_URL}/auth/${action}`;
     const res = await fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify({
+        stx_address_mainnet: stx_address_mainnet,
+        password: password,
+      }),
     });
 
     if (!res.ok) {
@@ -22,6 +30,15 @@ export const postUser = async (data: any) => {
     }
 
     const resData = await res.json();
+    setCookie("accessToken", resData.access_token, {
+      httpOnly: true,
+      sameSite: "strict",
+    });
+    setCookie("refreshToken", resData.access_token, {
+      httpOnly: true,
+      sameSite: "strict",
+    });
+
     console.log(resData);
   } catch (err) {
     console.error(err);

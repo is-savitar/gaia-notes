@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { AppConfig, showConnect, UserSession } from "@stacks/connect";
 import { Button } from "@/components/ui/button";
 import { LucideWallet } from "lucide-react";
-import { postUser, validateField } from "@/_lib/queries/users";
+import { handleAuth, validateField } from "@/_lib/queries/users";
 
 const appConfig = new AppConfig(["store_write", "publish_data"]);
 export const userSession = new UserSession({ appConfig });
@@ -38,25 +38,46 @@ const ConnectWallet = () => {
         const data = userSession.loadUserData();
         console.log(data);
         setUserData(data);
-        const res = await validateField(
-          "stx_address_mainnet",
-          data.profile.stxAddress.mainnet,
-        );
-        console.log(res, "Konichiwa");
-        if (res.status) {
-          console.log("Konichiwa");
-        } else {
-          try {
-            await postUser({
-              stx_address_testnet: data.profile.stxAddress.testnet,
-              stx_address_mainnet: data.profile.stxAddress.mainnet,
-              btc_address_mainnet: data.profile.btcAddress.mainnet,
-              btc_address_testnet: data.profile.btcAddress.testnet,
-            });
-          } catch (err) {
-            console.error("Error posting user data:", err);
-          }
-        }
+        // const res = await validateField(
+        //   "stx_address_mainnet",
+        //   data.profile.stxAddress.mainnet,
+        // );
+        // console.log(res, "Konichiwa");
+
+        const response = await fetch("/auth", {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            stx_address_mainnet: data.profile.stxAddress.mainnet,
+            password: data.decentralizedID as string,
+          }),
+        });
+        console.log(response);
+
+        // if (res.status) {
+        //   try {
+        //     await handleAuth(
+        //       data.profile.stxAddress.mainnet,
+        //       data.decentralizedID as string,
+        //       "login",
+        //     );
+        //   } catch (err) {
+        //     console.error("Error logging in", err);
+        //   }
+        // } else {
+        //   try {
+        //     await handleAuth(
+        //       data.profile.stxAddress.mainnet,
+        //       data.decentralizedID as string,
+        //       "signup",
+        //     );
+        //   } catch (err) {
+        //     console.error("Error signing up data:", err);
+        //   }
+        // }
       }
     };
 

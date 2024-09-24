@@ -117,21 +117,10 @@ import { TableElement } from "@/components/plate-ui/table-element";
 import { TableRowElement } from "@/components/plate-ui/table-row-element";
 import { TodoListElement } from "@/components/plate-ui/todo-list-element";
 import { withDraggables } from "@/components/plate-ui/with-draggables";
-import { Button } from "@/components/ui/button";
-// import { getJSON, getHTML } from "@udecode/plate-common/react";
 
 export default function PlateEditor({ onChange }: { onChange?: any }) {
   const containerRef = useRef(null);
   const editor = useMyEditor();
-
-  // const handleGetValue = useCallback(() => {
-  //   const value = getJSON(editor);
-  //   console.log(value);
-  // }, [editor]);
-  // const handleGetHtmk = useCallback(() => {
-  //   const value = getHTML(editor);
-  //   console.log(value);
-  // }, [editor]);
 
   return (
     <DndProvider backend={HTML5Backend}>
@@ -161,15 +150,10 @@ export default function PlateEditor({ onChange }: { onChange?: any }) {
           <FloatingToolbar>
             <FloatingToolbarButtons />
           </FloatingToolbar>
-
           <CommentsPopover />
-
           <CursorOverlay containerRef={containerRef} />
         </div>
       </Plate>
-      {/* <Button onClick={() => console.log(getValue())}>Get</Button> */}
-      {/* <Button onClick={() => handleGetValue}>Get Value</Button> */}
-      {/* <Button onClick={() => handleGetHtmk}>Get</Button> */}
     </DndProvider>
   );
 }
