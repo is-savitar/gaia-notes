@@ -128,6 +128,7 @@ export default function PlateEditor({
 }) {
   const containerRef = useRef(null);
   console.log(initialValue, "Hello");
+  const [content, setContent] = useState();
   const myEditor = useMyEditor(initialValue);
 
   // useEffect(() => {
@@ -141,9 +142,8 @@ export default function PlateEditor({
         readOnly={readOnly}
         editor={myEditor}
         onChange={({ value, editor }) => {
-          console.log(myEditor.value, "Effect");
           // console.log(value);
-          onChange(value);
+          // onChange(value);
           // console.log(editor);
         }}
       >
@@ -164,7 +164,10 @@ export default function PlateEditor({
             focusRing={false}
             variant="ghost"
             size="md"
-            onChange={(value) => console.log(value)}
+            onChange={(value) => {
+              console.log(value);
+              console.log("hehehe");
+            }}
             // placeholder="Just Write... "
           />
 
