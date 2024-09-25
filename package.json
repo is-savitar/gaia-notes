@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@ariakit/react": "^0.4.11",
+    "@hookform/resolvers": "^3.9.0",
     "@orbitdb/core": "^2.2.0",
     "@radix-ui/react-avatar": "^1.1.0",
     "@radix-ui/react-checkbox": "^1.1.1",
@@ -88,6 +89,7 @@
     "react-dnd": "^16.0.1",
     "react-dnd-html5-backend": "^16.0.1",
     "react-dom": "^18",
+    "react-hook-form": "^7.53.0",
     "react-lite-youtube-embed": "^2.4.0",
     "react-tweet": "^3.2.1",
     "slate": "^0.103.0",
@@ -98,7 +100,8 @@
     "sonner": "^1.5.0",
     "tailwind-merge": "^2.5.2",
     "tailwindcss-animate": "^1.0.7",
-    "winston": "^3.14.2"
+    "winston": "^3.14.2",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@types/node": "^20",

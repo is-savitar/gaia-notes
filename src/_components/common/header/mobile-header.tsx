@@ -36,7 +36,7 @@ export const MobileHeader = ({
     <div
       className={cn(
         "md:hidden px-4 pt-2",
-        isOpen && "fixed inset-0 z-40 dark:bg-zinc-950 bg-zinc-50",
+        isOpen && "fixed inset-0 z-[500] dark:bg-zinc-950 bg-zinc-50",
       )}
     >
       <div className="flex justify-between items-center pb-2">

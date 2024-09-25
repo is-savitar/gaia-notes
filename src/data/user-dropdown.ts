@@ -4,12 +4,12 @@ export const links = [
   {
     icon: User,
     text: "Profile",
-    href: "/",
+    href: "/me/profile",
   },
   {
     icon: Bookmark,
     text: "Library",
-    href: "/",
+    href: "/me/bookmarks",
   },
   {
     icon: Book,
@@ -20,7 +20,7 @@ export const links = [
 export const manage = [
   {
     text: "Settings",
-    href: "",
+    href: "/me/settings",
   },
   {
     text: "refine recommndations",

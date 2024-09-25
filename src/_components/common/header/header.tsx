@@ -50,7 +50,7 @@ export const Header = ({
       )}
     >
       <div className={cn("hidden md:block", headerVariants({ variant }))}>
-        <div className="flex-row-start flex justify-between px-6 py-4 w-full gap-2">
+        <div className="flex-row-start flex justify-between py-4 w-full gap-2">
           {Logo}
           <nav className="flex-row-end gap-3 lg:gap-8">{desktopItems}</nav>
         </div>
