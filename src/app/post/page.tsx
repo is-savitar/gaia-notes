@@ -17,6 +17,9 @@ import {
 } from "@/components/ui/form";
 import Image from "next/image";
 import { ParagraphPlugin } from "@udecode/plate-common/react";
+import { getUUIDClient } from "@/lib/utils/uuid_client";
+import ButtonLoader from "@/components/ui/button-loader";
+import { toast } from "sonner";
 
 const formSchema = z.object({
   title: z.string({ required_error: "Enter a title for your blog" }).min(2, {
@@ -30,6 +33,7 @@ const formSchema = z.object({
 });
 
 const PostBlog = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const form = useForm<z.infer<typeof formSchema>>({
@@ -41,8 +45,30 @@ const PostBlog = () => {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
+    setIsLoading(true);
+    const res = await fetch("/api/blogs", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        title: values.title,
+        tagline: values.tagline,
+        author: "Frontend author",
+        author_user_id: getUUIDClient(),
+        blog_image: "string hey yh",
+        blog_content: {},
+      }),
+    });
+    console.log(res);
+    if (res.status === 200) {
+      toast.success("Created blog successfully", {
+        richColors: true,
+      });
+      setIsLoading(false);
+    }
   }
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -112,7 +138,7 @@ const PostBlog = () => {
             name="image"
             render={({ field }) => (
               <FormItem className="">
-                <FormLabel>Blog Image</FormLabel>
+                <FormLabel>Cover Image</FormLabel>
                 <FormControl>
                   <div className="flex items-center gap-2">
                     <Input
@@ -158,18 +184,23 @@ const PostBlog = () => {
               />
             </div>
           )}
-          <PlateEditor
-            initialValue={[
-              {
-                id: "1",
-                type: ParagraphPlugin.key,
-                children: [{ text: "Start writing your blog post here..." }],
-              },
-            ]}
-          />
-          <Button className="self-end" type="submit">
+          {/* <PlateEditor */}
+          {/*   initialValue={[ */}
+          {/*     { */}
+          {/*       id: "1", */}
+          {/*       type: ParagraphPlugin.key, */}
+          {/*       children: [{ text: "Start writing your blog post here..." }], */}
+          {/*     }, */}
+          {/*   ]} */}
+          {/* /> */}
+          <ButtonLoader
+            isLoading={isLoading}
+            loadingText="Creating blog..."
+            className="self-end"
+            type="submit"
+          >
             Post
-          </Button>
+          </ButtonLoader>
         </form>
       </Form>
     </main>
