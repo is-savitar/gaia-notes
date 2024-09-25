@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { cn, withProps } from "@udecode/cn";
 import { AlignPlugin } from "@udecode/plate-alignment/react";
 import { AutoformatPlugin } from "@udecode/plate-autoformat/react";
@@ -26,7 +26,6 @@ import {
   CodeLinePlugin,
   CodeSyntaxPlugin,
 } from "@udecode/plate-code-block/react";
-import { CommentsPlugin } from "@udecode/plate-comments/react";
 import {
   isBlockAboveEmpty,
   isSelectionAtBlockStart,
@@ -118,18 +117,40 @@ import { TableRowElement } from "@/components/plate-ui/table-row-element";
 import { TodoListElement } from "@/components/plate-ui/todo-list-element";
 import { withDraggables } from "@/components/plate-ui/with-draggables";
 
-export default function PlateEditor({ onChange }: { onChange?: any }) {
+export default function PlateEditor({
+  onChange,
+  initialValue,
+  readOnly = false,
+}: {
+  onChange?: any;
+  readOnly?: boolean;
+  initialValue?: any;
+}) {
   const containerRef = useRef(null);
-  const editor = useMyEditor();
+  console.log(initialValue, "Hello");
+  const myEditor = useMyEditor(initialValue);
+
+  // useEffect(() => {
+  //   console.log(editor.value, "Effect");
+  //   // getEditor
+  // }, [editor]);
 
   return (
     <DndProvider backend={HTML5Backend}>
-      <Plate editor={editor} onChange={(value) => console.log(value)}>
+      <Plate
+        readOnly={readOnly}
+        editor={myEditor}
+        onChange={({ value, editor }) => {
+          console.log(myEditor.value, "Effect");
+          // console.log(value);
+          onChange(value);
+          // console.log(editor);
+        }}
+      >
         <div
           ref={containerRef}
           className={cn(
             "relative",
-            // Block selection
             "[&_.slate-start-area-left]:!w-[64px] [&_.slate-start-area-right]:!w-[64px] [&_.slate-start-area-top]:!h-4 border",
           )}
         >
@@ -150,7 +171,6 @@ export default function PlateEditor({ onChange }: { onChange?: any }) {
           <FloatingToolbar>
             <FloatingToolbarButtons />
           </FloatingToolbar>
-          <CommentsPopover />
           <CursorOverlay containerRef={containerRef} />
         </div>
       </Plate>
@@ -158,8 +178,11 @@ export default function PlateEditor({ onChange }: { onChange?: any }) {
   );
 }
 
-export const useMyEditor = () => {
+export const useMyEditor = (initialValue: any) => {
+  console.log(initialValue);
+
   const editor = createPlateEditor({
+    value: initialValue,
     plugins: [
       // Nodes
       HeadingPlugin,
@@ -354,21 +377,6 @@ export const useMyEditor = () => {
       }),
       DragOverCursorPlugin,
 
-      // Collaboration
-      CommentsPlugin.configure({
-        options: {
-          users: {
-            1: {
-              id: "1",
-              name: "zbeyens",
-              avatarUrl:
-                "https://avatars.githubusercontent.com/u/19695832?s=96&v=4",
-            },
-          },
-          myUserId: "1",
-        },
-      }),
-
       // Deserialization
       DocxPlugin,
       MarkdownPlugin,
@@ -409,17 +417,9 @@ export const useMyEditor = () => {
           [SubscriptPlugin.key]: withProps(PlateLeaf, { as: "sub" }),
           [SuperscriptPlugin.key]: withProps(PlateLeaf, { as: "sup" }),
           [UnderlinePlugin.key]: withProps(PlateLeaf, { as: "u" }),
-          [CommentsPlugin.key]: CommentLeaf,
         }),
       ),
     },
-    value: [
-      {
-        id: "1",
-        type: ParagraphPlugin.key,
-        children: [{ text: "Hello, World!" }],
-      },
-    ],
   });
 
   return editor;
