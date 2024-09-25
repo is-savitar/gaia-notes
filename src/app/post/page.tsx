@@ -31,13 +31,11 @@ const formSchema = z.object({
     message: "Tagline must be atleast 2 characters.",
   }),
   image: z.instanceof(File).optional(),
+  categories: z.array(z.string()).min(1, "Select atleast one category"),
   // blog_content: z.any(),
 });
 
 const PostBlog = () => {
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([
-    "stacks",
-  ]);
   const [isLoading, setIsLoading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
@@ -46,6 +44,7 @@ const PostBlog = () => {
     defaultValues: {
       title: "",
       tagline: "",
+      categories: ["stacks"],
       // blog_content: "",
     },
   });
@@ -179,14 +178,29 @@ const PostBlog = () => {
             )}
           />
 
-          <MultiSelect
-            options={categories_list}
-            onValueChange={setSelectedCategories}
-            defaultValue={selectedCategories}
-            placeholder="Select frameworks"
-            variant="inverted"
-            animation={2}
-            maxCount={3}
+          <FormField
+            control={form.control}
+            name="categories"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Categories</FormLabel>
+                <FormControl>
+                  <MultiSelect
+                    options={categories_list}
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                    placeholder="Select frameworks"
+                    variant="inverted"
+                    animation={2}
+                    maxCount={3}
+                  />
+                </FormControl>
+                <FormDescription>
+                  Add the categories your blog falls into
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
           />
 
           {imagePreview && (
