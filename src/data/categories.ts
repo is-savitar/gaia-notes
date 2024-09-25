@@ -9,3 +9,11 @@ export const categories = [
   "React",
   "Coding",
 ];
+export const categories_list = [
+  { value: "stacks", label: "Stacks" },
+  {
+    value: "bitcoin",
+    label: "Bitcoin",
+  },
+  { value: "crypto", label: "Crypto" },
+];

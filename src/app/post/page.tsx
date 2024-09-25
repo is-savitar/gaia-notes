@@ -20,6 +20,8 @@ import { ParagraphPlugin } from "@udecode/plate-common/react";
 import { getUUIDClient } from "@/lib/utils/uuid_client";
 import ButtonLoader from "@/components/ui/button-loader";
 import { toast } from "sonner";
+import { MultiSelect } from "@/components/ui/multi-select";
+import { categories_list } from "@/data/categories";
 
 const formSchema = z.object({
   title: z.string({ required_error: "Enter a title for your blog" }).min(2, {
@@ -33,6 +35,9 @@ const formSchema = z.object({
 });
 
 const PostBlog = () => {
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([
+    "stacks",
+  ]);
   const [isLoading, setIsLoading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
@@ -66,6 +71,7 @@ const PostBlog = () => {
     if (res.status === 200) {
       toast.success("Created blog successfully", {
         richColors: true,
+        position: "top-right",
       });
       setIsLoading(false);
     }
@@ -171,6 +177,16 @@ const PostBlog = () => {
                 <FormMessage />
               </FormItem>
             )}
+          />
+
+          <MultiSelect
+            options={categories_list}
+            onValueChange={setSelectedCategories}
+            defaultValue={selectedCategories}
+            placeholder="Select frameworks"
+            variant="inverted"
+            animation={2}
+            maxCount={3}
           />
 
           {imagePreview && (
