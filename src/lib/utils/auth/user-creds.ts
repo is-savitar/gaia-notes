@@ -11,7 +11,7 @@ export type Tokens = {
 };
 
 type UserCredentials = {
-  accessToken: string;
+  accessToken: string | undefined;
   refreshToken: string;
   accessTokenExpiry: number;
   refreshTokenExpiry: number;
@@ -29,7 +29,7 @@ export function getUserCredentials(req: NextRequest): UserCredentials | null {
   );
   const uuid = req.cookies.get("uuid")?.value;
 
-  if (!accessToken || !refreshToken || !uuid) return null;
+  if (!refreshToken || !uuid) return null;
 
   return {
     accessToken,
@@ -80,3 +80,11 @@ export function saveUserTokens(tokens: Tokens) {
     },
   );
 }
+
+export const deleteUserCreds = (req: NextRequest) => {
+  req.cookies.delete("accessToken");
+  req.cookies.delete("refreshToken");
+  req.cookies.delete("uuid");
+  req.cookies.delete("accessTokenExpiry");
+  req.cookies.delete("refreshTokenExpiry");
+};
