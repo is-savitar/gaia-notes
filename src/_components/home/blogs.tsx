@@ -3,7 +3,7 @@ import BlogCard from "./blog_card";
 
 const Blogs = ({ category }: { category: string }) => {
   return (
-    <main className="mx-auto max-w-[1200px] flex flex-col gap-4 py-10 px-5">
+    <main className="mx-auto max-w-[1200px] flex flex-col gap-4 py-10">
       {blogs.map((blog, index) => (
         <BlogCard blog={blog} key={index} />
       ))}

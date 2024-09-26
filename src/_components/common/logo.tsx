@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { PROJECT_NAME } from "@/lib/constants";
-import CircularImage from "@/components/ui/circular-image";
+import { CircularImage } from "@/components/ui/circular-image";
 
 export const LogoLink = ({ footer = false }: { footer?: boolean }) => {
   return (

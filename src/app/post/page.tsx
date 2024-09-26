@@ -22,6 +22,17 @@ import ButtonLoader from "@/components/ui/button-loader";
 import { toast } from "sonner";
 import { MultiSelect } from "@/components/ui/multi-select";
 import { categories_list } from "@/data/categories";
+import { useMyEditor } from "@/hooks/use-editor";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DialogFooter,
+  DialogClose,
+} from "@/components/ui/dialog";
 
 const formSchema = z.object({
   title: z.string({ required_error: "Enter a title for your blog" }).min(2, {
@@ -36,6 +47,14 @@ const formSchema = z.object({
 });
 
 const PostBlog = () => {
+  const [content, setContent] = useState("");
+  const editor = useMyEditor([
+    {
+      id: "1",
+      type: ParagraphPlugin.key,
+      children: [{ text: "Start writing your blog post here..." }],
+    },
+  ]);
   const [isLoading, setIsLoading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
@@ -178,6 +197,17 @@ const PostBlog = () => {
             )}
           />
 
+          {imagePreview && (
+            <div className="mt-4">
+              <Image
+                src={imagePreview}
+                alt="Blog post image preview"
+                width={300}
+                height={200}
+                className="rounded-md object-cover"
+              />
+            </div>
+          )}
           <FormField
             control={form.control}
             name="categories"
@@ -203,34 +233,36 @@ const PostBlog = () => {
             )}
           />
 
-          {imagePreview && (
-            <div className="mt-4">
-              <Image
-                src={imagePreview}
-                alt="Blog post image preview"
-                width={300}
-                height={200}
-                className="rounded-md object-cover"
-              />
-            </div>
-          )}
-          {/* <PlateEditor */}
-          {/*   initialValue={[ */}
-          {/*     { */}
-          {/*       id: "1", */}
-          {/*       type: ParagraphPlugin.key, */}
-          {/*       children: [{ text: "Start writing your blog post here..." }], */}
-          {/*     }, */}
-          {/*   ]} */}
-          {/* /> */}
-          <ButtonLoader
-            isLoading={isLoading}
-            loadingText="Creating blog..."
-            className="self-end"
-            type="submit"
-          >
-            Post
-          </ButtonLoader>
+          <PlateEditor editor={editor} onChange={setContent} />
+          <div className="self-end flex gap-4">
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button type="button">Reset Content</Button>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-[425px] z-[99999999999999]">
+                <DialogHeader>
+                  <DialogTitle>Reset Blog Content</DialogTitle>
+                  <DialogDescription>
+                    Are you sure you want to reset your blog content, this
+                    action is irreversible
+                  </DialogDescription>
+                </DialogHeader>
+                <DialogFooter className="flex gap-3">
+                  <DialogClose>Cancel</DialogClose>
+                  <Button type="button" onClick={() => editor.tf.reset()}>
+                    Confirm
+                  </Button>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
+            <ButtonLoader
+              isLoading={isLoading}
+              loadingText="Creating blog..."
+              type="submit"
+            >
+              Post
+            </ButtonLoader>
+          </div>
         </form>
       </Form>
     </main>

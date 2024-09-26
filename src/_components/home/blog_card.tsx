@@ -1,11 +1,11 @@
-import CircularImage from "@/components/ui/circular-image";
+import { CircularImage, FillImage } from "@/components/ui/circular-image";
 import { BlogSchema } from "@/types/blog";
 import Image from "next/image";
 import Link from "next/link";
 
 const BlogCard = ({ blog }: { blog: BlogSchema }) => {
   return (
-    <div className="flex gap-10 py-4 border-b">
+    <div className="grid grid-cols-2 md:flex gap-10 py-4 border-b">
       <div className="flex flex-col gap-4">
         <div className="flex items-center gap-2">
           <CircularImage
@@ -21,7 +21,7 @@ const BlogCard = ({ blog }: { blog: BlogSchema }) => {
             {blog.author.name}
           </Link>
         </div>
-        <h3 className="text-2xl font-bold">{blog.title}</h3>
+        <h3 className="text-xl md:text-2xl font-bold">{blog.title}</h3>
         <p className="text-cod-gray">{blog.tagline}</p>
         <div>
           <div></div>
@@ -29,10 +29,9 @@ const BlogCard = ({ blog }: { blog: BlogSchema }) => {
         </div>
       </div>
       <div>
-        <Image
+        <FillImage
           src={blog.cover_image}
-          width={200}
-          height={200}
+          size={150}
           alt={blog.title}
           className="object-cover"
         />
