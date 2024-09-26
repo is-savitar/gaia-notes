@@ -14,12 +14,12 @@ const UserDropdown = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Avatar>
+        <Avatar className="hover:cursor-pointer">
           <AvatarImage src="" />
           <AvatarFallback>SA</AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56">
+      <DropdownMenuContent className="w-56" sideOffset={20}>
         <DropdownMenuGroup>
           {links.map((item, index) => (
             <DropdownMenuItem key={index} asChild>
