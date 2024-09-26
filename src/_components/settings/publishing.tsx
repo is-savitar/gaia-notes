@@ -1,3 +1,5 @@
+import { TabsWrapper } from "./tabs";
+
 export default function Publishing() {
-  return <div></div>;
+  return <TabsWrapper>Publishing</TabsWrapper>;
 }

@@ -219,7 +219,7 @@ const PostBlog = () => {
                     options={categories_list}
                     onValueChange={field.onChange}
                     defaultValue={field.value}
-                    placeholder="Select frameworks"
+                    placeholder="Select categories"
                     variant="inverted"
                     animation={2}
                     maxCount={3}

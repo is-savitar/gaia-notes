@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import UserImageName from "../user-img-name";
 import {
   Dialog,
@@ -21,16 +21,19 @@ import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button } from "@/components/ui/button";
 import { MultiSelect } from "@/components/ui/multi-select";
 import { pronouns } from "@/data/users";
 import { Textarea } from "@/components/ui/textarea";
+import ButtonLoader from "@/components/ui/button-loader";
+import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
 
 interface RowData {
   title: string;
-  desc: string;
-  value: React.FC;
-  modal: React.FC<{ onClose: () => void }>;
+  desc?: string;
+  value?: React.FC;
+  modal?: React.FC<{ onClose: () => void }>;
+  href?: string;
 }
 
 const usernameFormSchema = z.object({
@@ -55,6 +58,7 @@ const profileFormSchema = z.object({
 });
 
 const UsernameModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
+  const [isLoading, setIsLoading] = useState(false);
   const form = useForm<z.infer<typeof usernameFormSchema>>({
     resolver: zodResolver(usernameFormSchema),
     defaultValues: {
@@ -63,8 +67,9 @@ const UsernameModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   });
 
   function onSubmit(values: z.infer<typeof usernameFormSchema>) {
+    setIsLoading(true);
     console.log(values);
-    onClose();
+    // onClose();
   }
 
   return (
@@ -86,22 +91,59 @@ const UsernameModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             </FormItem>
           )}
         />
-        <Button type="submit">Update Username</Button>
+        <ButtonLoader
+          isLoading={isLoading}
+          loadingText="Updating username ..."
+          type="submit"
+        >
+          Update Username
+        </ButtonLoader>
       </form>
     </Form>
   );
 };
+
+const BlockedUsersModal: React.FC<{ onClose: () => void; blocked: any }> = ({
+  blocked,
+}) => {
+  return (
+    <div>
+      <p className="text-accent-foreground text-sm">
+        Blocked users will be removed from your feed and email digests, and you
+        won't see them in the future.{" "}
+        <Link className="text-blue-500 hover:underline" href={"/about"}>
+          Learn more.
+        </Link>
+        <div className="flex flex-col gap-3">
+          {blocked &&
+            blocked.length > 0 &&
+            blocked.map((user, index: number) => (
+              <UserImageName
+                name={user.name}
+                username={user.username}
+                profile_pic={user.profile_pic}
+                key={index}
+              />
+            ))}
+        </div>
+      </p>
+    </div>
+  );
+};
+
 const ProfileInformationModal: React.FC<{ onClose: () => void }> = ({
   onClose,
 }) => {
+  const [isLoading, setIsLoading] = useState(false);
   const form = useForm<z.infer<typeof profileFormSchema>>({
     resolver: zodResolver(profileFormSchema),
     defaultValues: {},
   });
 
   function onSubmit(values: z.infer<typeof profileFormSchema>) {
+    setIsLoading(true);
     console.log(values);
-    onClose();
+    // onClose();
   }
 
   return (
@@ -134,7 +176,7 @@ const ProfileInformationModal: React.FC<{ onClose: () => void }> = ({
                   options={pronouns}
                   onValueChange={field.onChange}
                   defaultValue={field.value}
-                  placeholder="Select frameworks"
+                  placeholder="Select pronouns"
                   variant="inverted"
                   animation={2}
                   maxCount={3}
@@ -164,7 +206,13 @@ const ProfileInformationModal: React.FC<{ onClose: () => void }> = ({
             </FormItem>
           )}
         />
-        <Button type="submit">Update Profile details</Button>
+        <ButtonLoader
+          isLoading={isLoading}
+          loadingText="Updating profile ..."
+          type="submit"
+        >
+          Update Profile details
+        </ButtonLoader>
       </form>
     </Form>
   );
@@ -183,10 +231,26 @@ const rows: RowData[] = [
       <UserImageName
         username="savitar"
         name="Savitar Flash"
-        profile_pic="/savi4tar.png"
+        profile_pic="/s4vitar.png"
       />
     ),
     modal: ProfileInformationModal,
+  },
+  {
+    title: "Profile design",
+    desc: "Customize the apperance of your profile.",
+    value: () => <ArrowUpRight className="h-6 w-6" />,
+    href: "/me/design",
+  },
+  {
+    title: "Custom domain",
+    desc: "Upgrade to a Medium Membersip to redirect yur profile URL to a domain like yourdomain.com",
+    value: () => <ArrowUpRight className="h-6 w-6" />,
+    href: "/me/design",
+  },
+  {
+    title: "Blocked users",
+    modal: BlockedUsersModal,
   },
 ];
 
@@ -196,24 +260,47 @@ const Row: React.FC<{ row: RowData }> = ({ row }) => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <div className="flex justify-between items-center py-4 w-full cursor-pointer hover:bg-gray-50 rounded-lg px-4">
-          <div className="flex flex-col">
-            <div className="font-medium">{row.title}</div>
-            {row.desc && (
-              <div className="text-[13px] text-gray-500">{row.desc}</div>
+        {row.href ? (
+          <Link
+            href={row.href}
+            className="flex justify-between items-center py-4 w-full cursor-pointer hover:bg-gray-50 rounded-lg px-4"
+          >
+            <div className="flex flex-col">
+              <div className="font-medium">{row.title}</div>
+              {row.desc && (
+                <div className="text-[13px] text-gray-500">{row.desc}</div>
+              )}
+            </div>
+            {row.value && (
+              <div className="flex items-center space-x-4 text-sm text-[#6b6b6b] hover:text-black transition-colors duration-150">
+                <row.value />
+              </div>
+            )}
+          </Link>
+        ) : (
+          <div className="flex justify-between items-center py-4 w-full cursor-pointer hover:bg-gray-50 rounded-lg px-4">
+            <div className="flex flex-col">
+              <div className="font-medium">{row.title}</div>
+              {row.desc && (
+                <div className="text-[13px] text-gray-500">{row.desc}</div>
+              )}
+            </div>
+            {row.value && (
+              <div className="flex items-center space-x-4 text-sm text-[#6b6b6b] hover:text-black transition-colors duration-150">
+                <row.value />
+              </div>
             )}
           </div>
-          <div className="flex items-center space-x-4 text-sm text-[#6b6b6b] hover:text-black transition-colors duration-150">
-            <row.value />
-          </div>
-        </div>
+        )}
       </DialogTrigger>
-      <DialogContent>
-        <DialogHeader className="text-lg font-medium text-center">
-          {row.title}
-        </DialogHeader>
-        <row.modal onClose={() => setOpen(false)} />
-      </DialogContent>
+      {row.modal && (
+        <DialogContent>
+          <DialogHeader className="text-lg font-medium text-center">
+            {row.title}
+          </DialogHeader>
+          <row.modal onClose={() => setOpen(false)} />
+        </DialogContent>
+      )}
     </Dialog>
   );
 };

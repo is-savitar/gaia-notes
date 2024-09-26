@@ -1,3 +1,5 @@
+import { TabsWrapper } from "./tabs";
+
 export default function Notifications() {
-  return <div></div>;
+  return <TabsWrapper>Notifications</TabsWrapper>;
 }
