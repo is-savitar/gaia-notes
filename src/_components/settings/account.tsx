@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import UserImageName from "../user-img-name";
 import {
   Dialog,
@@ -25,6 +25,7 @@ import { Button } from "@/components/ui/button";
 import { MultiSelect } from "@/components/ui/multi-select";
 import { pronouns } from "@/data/users";
 import { Textarea } from "@/components/ui/textarea";
+import ButtonLoader from "@/components/ui/button-loader";
 
 interface RowData {
   title: string;
@@ -55,6 +56,7 @@ const profileFormSchema = z.object({
 });
 
 const UsernameModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
+  const [isLoading, setIsLoading] = useState(false);
   const form = useForm<z.infer<typeof usernameFormSchema>>({
     resolver: zodResolver(usernameFormSchema),
     defaultValues: {
@@ -63,8 +65,9 @@ const UsernameModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   });
 
   function onSubmit(values: z.infer<typeof usernameFormSchema>) {
+    setIsLoading(true);
     console.log(values);
-    onClose();
+    // onClose();
   }
 
   return (
@@ -86,7 +89,13 @@ const UsernameModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             </FormItem>
           )}
         />
-        <Button type="submit">Update Username</Button>
+        <ButtonLoader
+          isLoading={isLoading}
+          loadingText="Updating username ..."
+          type="submit"
+        >
+          Update Username
+        </ButtonLoader>
       </form>
     </Form>
   );
@@ -94,14 +103,16 @@ const UsernameModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
 const ProfileInformationModal: React.FC<{ onClose: () => void }> = ({
   onClose,
 }) => {
+  const [isLoading, setIsLoading] = useState(false);
   const form = useForm<z.infer<typeof profileFormSchema>>({
     resolver: zodResolver(profileFormSchema),
     defaultValues: {},
   });
 
   function onSubmit(values: z.infer<typeof profileFormSchema>) {
+    setIsLoading(true);
     console.log(values);
-    onClose();
+    // onClose();
   }
 
   return (
@@ -134,7 +145,7 @@ const ProfileInformationModal: React.FC<{ onClose: () => void }> = ({
                   options={pronouns}
                   onValueChange={field.onChange}
                   defaultValue={field.value}
-                  placeholder="Select frameworks"
+                  placeholder="Select pronouns"
                   variant="inverted"
                   animation={2}
                   maxCount={3}
@@ -164,7 +175,13 @@ const ProfileInformationModal: React.FC<{ onClose: () => void }> = ({
             </FormItem>
           )}
         />
-        <Button type="submit">Update Profile details</Button>
+        <ButtonLoader
+          isLoading={isLoading}
+          loadingText="Updating profile ..."
+          type="submit"
+        >
+          Update Profile details
+        </ButtonLoader>
       </form>
     </Form>
   );
@@ -183,7 +200,7 @@ const rows: RowData[] = [
       <UserImageName
         username="savitar"
         name="Savitar Flash"
-        profile_pic="/savi4tar.png"
+        profile_pic="/s4vitar.png"
       />
     ),
     modal: ProfileInformationModal,
