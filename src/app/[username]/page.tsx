@@ -51,7 +51,7 @@ export default async function Page() {
           </DropdownMenu>
         </div>
         <Tabs defaultValue={"home"}>
-          <TabsList className="grid w-full grid-cols-3 bg-transparent border-b py-8 rounded-none">
+          <TabsList className="grid w-full grid-cols-3 bg-transparent border-b py-10 rounded-none">
             <TabsTrigger
               value="home"
               className="!shadow-none bg-transparent rounded-none"

@@ -31,6 +31,7 @@ export async function POST(req: NextRequest) {
         maxAge: 7 * 24 * 60 * 60,
         path: "/",
       });
+
       cookieStore.set("uuid", data.user.uuid, {
         httpOnly: false,
         secure: process.env.NODE_ENV !== "development",
