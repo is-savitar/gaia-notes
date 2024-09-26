@@ -21,17 +21,19 @@ import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button } from "@/components/ui/button";
 import { MultiSelect } from "@/components/ui/multi-select";
 import { pronouns } from "@/data/users";
 import { Textarea } from "@/components/ui/textarea";
 import ButtonLoader from "@/components/ui/button-loader";
+import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
 
 interface RowData {
   title: string;
-  desc: string;
-  value: React.FC;
-  modal: React.FC<{ onClose: () => void }>;
+  desc?: string;
+  value?: React.FC;
+  modal?: React.FC<{ onClose: () => void }>;
+  href?: string;
 }
 
 const usernameFormSchema = z.object({
@@ -100,6 +102,35 @@ const UsernameModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
     </Form>
   );
 };
+
+const BlockedUsersModal: React.FC<{ onClose: () => void; blocked: any }> = ({
+  blocked,
+}) => {
+  return (
+    <div>
+      <p className="text-accent-foreground text-sm">
+        Blocked users will be removed from your feed and email digests, and you
+        won't see them in the future.{" "}
+        <Link className="text-blue-500 hover:underline" href={"/about"}>
+          Learn more.
+        </Link>
+        <div className="flex flex-col gap-3">
+          {blocked &&
+            blocked.length > 0 &&
+            blocked.map((user, index: number) => (
+              <UserImageName
+                name={user.name}
+                username={user.username}
+                profile_pic={user.profile_pic}
+                key={index}
+              />
+            ))}
+        </div>
+      </p>
+    </div>
+  );
+};
+
 const ProfileInformationModal: React.FC<{ onClose: () => void }> = ({
   onClose,
 }) => {
@@ -205,6 +236,22 @@ const rows: RowData[] = [
     ),
     modal: ProfileInformationModal,
   },
+  {
+    title: "Profile design",
+    desc: "Customize the apperance of your profile.",
+    value: () => <ArrowUpRight className="h-6 w-6" />,
+    href: "/me/design",
+  },
+  {
+    title: "Custom domain",
+    desc: "Upgrade to a Medium Membersip to redirect yur profile URL to a domain like yourdomain.com",
+    value: () => <ArrowUpRight className="h-6 w-6" />,
+    href: "/me/design",
+  },
+  {
+    title: "Blocked users",
+    modal: BlockedUsersModal,
+  },
 ];
 
 const Row: React.FC<{ row: RowData }> = ({ row }) => {
@@ -213,24 +260,47 @@ const Row: React.FC<{ row: RowData }> = ({ row }) => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <div className="flex justify-between items-center py-4 w-full cursor-pointer hover:bg-gray-50 rounded-lg px-4">
-          <div className="flex flex-col">
-            <div className="font-medium">{row.title}</div>
-            {row.desc && (
-              <div className="text-[13px] text-gray-500">{row.desc}</div>
+        {row.href ? (
+          <Link
+            href={row.href}
+            className="flex justify-between items-center py-4 w-full cursor-pointer hover:bg-gray-50 rounded-lg px-4"
+          >
+            <div className="flex flex-col">
+              <div className="font-medium">{row.title}</div>
+              {row.desc && (
+                <div className="text-[13px] text-gray-500">{row.desc}</div>
+              )}
+            </div>
+            {row.value && (
+              <div className="flex items-center space-x-4 text-sm text-[#6b6b6b] hover:text-black transition-colors duration-150">
+                <row.value />
+              </div>
+            )}
+          </Link>
+        ) : (
+          <div className="flex justify-between items-center py-4 w-full cursor-pointer hover:bg-gray-50 rounded-lg px-4">
+            <div className="flex flex-col">
+              <div className="font-medium">{row.title}</div>
+              {row.desc && (
+                <div className="text-[13px] text-gray-500">{row.desc}</div>
+              )}
+            </div>
+            {row.value && (
+              <div className="flex items-center space-x-4 text-sm text-[#6b6b6b] hover:text-black transition-colors duration-150">
+                <row.value />
+              </div>
             )}
           </div>
-          <div className="flex items-center space-x-4 text-sm text-[#6b6b6b] hover:text-black transition-colors duration-150">
-            <row.value />
-          </div>
-        </div>
+        )}
       </DialogTrigger>
-      <DialogContent>
-        <DialogHeader className="text-lg font-medium text-center">
-          {row.title}
-        </DialogHeader>
-        <row.modal onClose={() => setOpen(false)} />
-      </DialogContent>
+      {row.modal && (
+        <DialogContent>
+          <DialogHeader className="text-lg font-medium text-center">
+            {row.title}
+          </DialogHeader>
+          <row.modal onClose={() => setOpen(false)} />
+        </DialogContent>
+      )}
     </Dialog>
   );
 };

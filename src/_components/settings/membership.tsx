@@ -1,3 +1,5 @@
+import { TabsWrapper } from "./tabs";
+
 export default function Membership() {
-  return <div></div>;
+  return <TabsWrapper>Membership and paymment</TabsWrapper>;
 }

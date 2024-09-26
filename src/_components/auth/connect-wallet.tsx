@@ -44,7 +44,7 @@ const ConnectWallet = () => {
         // );
         // console.log(res, "Konichiwa");
 
-        const response = await fetch("/auth", {
+        const response = await fetch("/api/auth", {
           method: "POST",
           credentials: "include",
           headers: {
