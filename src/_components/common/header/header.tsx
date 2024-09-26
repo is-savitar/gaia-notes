@@ -44,7 +44,7 @@ export const Header = ({
   return (
     <header
       className={cn(
-        "w-full bg-white dark:bg-zinc-950/50 md:px-5 z-[999] sticky-header border-b",
+        "w-full bg-white dark:bg-zinc-950/50 md:px-5 z-[9] sticky-header border-b",
         sticky && variant == "centered" && "md:sticky top-3",
         sticky && variant == "default" && "md:sticky top-0",
       )}
