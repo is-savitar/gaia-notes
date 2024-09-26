@@ -4,7 +4,7 @@ import { getUserCredentials, saveUserTokens, Tokens } from "./user-creds";
 import { API_URL } from "@/lib/constants";
 
 // Define the backend URL and the maximum time for token refresh
-const MAX_TIME_REFRESH = 3 * 60 * 1000;
+const WARNING_TIME = 5 * 60 * 1000; // 5 minutes before expiry
 
 // Define the main function for making authenticated requests
 export default async function fetchWithCredentials(
@@ -20,26 +20,43 @@ export default async function fetchWithCredentials(
     return { message: "No credentials provided", statusCode: 401 };
   }
 
-  // Create a function to make the fetch request with the appropriate credentials
-  const requestToFetch = makeFetch(path, userCredentials.accessToken, init);
+  const currentTime = Date.now();
+  const accessTokenExpiry = userCredentials.accessTokenExpiry;
 
-  // Check if the access token is about to expire, and refresh it if needed
-  if (userCredentials.accessTokenExpiry - (Date.now() + MAX_TIME_REFRESH) < 0) {
-    // Attempt to refresh the tokens
+  // Check if the access token has expired
+  if (accessTokenExpiry < currentTime) {
+    // If expired, attempt to refresh the token
     const newTokens = await refresh(userCredentials.refreshToken);
 
-    // If successful, save the new tokens and retry the original request
+    // If successful, save the new tokens
     if ("accessToken" in newTokens) {
       saveUserTokens(newTokens);
-      return await requestToFetch(newTokens.accessToken);
+      // Proceed with the original request using the new access token
+      return makeFetch(path, newTokens.accessToken, init)();
+    } else {
+      // If token refresh fails, return the error response
+      return newTokens;
     }
-
-    // If token refresh fails, return the error response
-    return newTokens;
   }
 
-  // If the access token is still valid, proceed with the original request
-  return requestToFetch();
+  // Check if the access token is about to expire (within the warning time)
+  if (accessTokenExpiry - (currentTime + WARNING_TIME) < 0) {
+    // Attempt to refresh the token
+    const newTokens = await refresh(userCredentials.refreshToken);
+
+    // If successful, save the new tokens
+    if ("accessToken" in newTokens) {
+      saveUserTokens(newTokens);
+      // Proceed with the original request using the new access token
+      return makeFetch(path, newTokens.accessToken, init)();
+    } else {
+      // If token refresh fails, return the error response
+      return newTokens;
+    }
+  }
+
+  // Create a function to make the fetch request with the current access token
+  return makeFetch(path, userCredentials.accessToken as string, init)();
 }
 
 // Function to refresh user tokens
@@ -63,11 +80,11 @@ function makeFetch(
   accessToken: string,
   init: RequestInit | undefined,
 ): (newAccessToken?: string) => Promise<any> {
-  return async function (newAccessToken?: string) {
-    // Make a fetch request to the specified path with the provided or refreshed access token
+  return async function () {
+    // Make a fetch request to the specified path with the provided access token
     return fetch(`${API_URL}${path}`, {
       headers: {
-        Authorization: `Bearer ${newAccessToken ?? accessToken}`,
+        Authorization: `Bearer ${accessToken}`,
       },
       ...init,
     }).then((res) => res.json());
