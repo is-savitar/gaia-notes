@@ -1,4 +1,7 @@
+import SignOut from "@/_components/auth/sign-out";
+import signOut from "@/app/auth/actions";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -8,6 +11,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { links, manage } from "@/data/user-dropdown";
+import { LogOut } from "lucide-react";
 import Link from "next/link";
 
 const UserDropdown = () => {
@@ -40,6 +44,10 @@ const UserDropdown = () => {
             </DropdownMenuItem>
           ))}
         </DropdownMenuGroup>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem asChild className="p-0">
+          <SignOut />
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

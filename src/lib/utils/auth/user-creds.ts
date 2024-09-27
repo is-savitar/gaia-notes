@@ -1,5 +1,5 @@
 import { cookies } from "next/headers";
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export type Tokens = {
   access_token: string;
@@ -30,6 +30,8 @@ export function getUserCredentials(req: NextRequest): UserCredentials | null {
   const uuid = req.cookies.get("uuid")?.value;
 
   if (!refreshToken || !uuid) return null;
+
+  console.log("here");
 
   return {
     accessToken,
@@ -80,11 +82,3 @@ export function saveUserTokens(tokens: Tokens) {
     },
   );
 }
-
-export const deleteUserCreds = (req: NextRequest) => {
-  req.cookies.delete("accessToken");
-  req.cookies.delete("refreshToken");
-  req.cookies.delete("uuid");
-  req.cookies.delete("accessTokenExpiry");
-  req.cookies.delete("refreshTokenExpiry");
-};
