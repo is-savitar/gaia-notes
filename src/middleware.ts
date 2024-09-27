@@ -11,6 +11,7 @@ export async function middleware(req: NextRequest) {
   const pathname = req.nextUrl.pathname;
 
   const creds = getUserCredentials(req);
+  // console.log(creds, "middleware");
 
   if (
     protectedRoutes.includes(pathname) &&
