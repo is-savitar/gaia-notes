@@ -15,4 +15,5 @@ export interface BlogSchema {
   min_read: number;
   tagline: string;
   category: string[];
+  uuid: string;
 }
