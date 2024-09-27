@@ -5,8 +5,8 @@ import Link from "next/link";
 
 const BlogCard = ({ blog }: { blog: BlogSchema }) => {
   return (
-    <div className="grid grid-cols-2 md:flex gap-10 py-4 border-b">
-      <div className="flex flex-col gap-4">
+    <div className="grid grid-cols-2 md:flex justify-between gap-10 py-4 border-b">
+      <Link href={`/${blog.uuid}`} className="flex flex-col gap-4">
         <div className="flex items-center gap-2">
           <CircularImage
             src={blog.author.image}
@@ -27,7 +27,7 @@ const BlogCard = ({ blog }: { blog: BlogSchema }) => {
           <div></div>
           <div></div>
         </div>
-      </div>
+      </Link>
       <div>
         <FillImage
           src={blog.cover_image}

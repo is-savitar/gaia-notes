@@ -1,7 +1,6 @@
 import { toast } from "sonner";
 import { API_URL } from "./constants";
 import { getUUIDClient } from "./utils/uuid_client";
-// import { revalidateTagServer, revalidateUserProfile } from "@/app/actions";
 
 const uploadStagedFile = async (stagedFile: File | Blob, uuid: string) => {
   const form = new FormData();

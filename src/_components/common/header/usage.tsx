@@ -53,7 +53,7 @@ export const Header = ({
         >
           <SquarePen size={17} /> Write
         </Link>
-        <Link href={"/notification"} className="font-light text-cod-gray">
+        <Link href={"/me/notifications"} className="font-light text-cod-gray">
           <Bell size={18} />
         </Link>
         <UserDropdown />

@@ -11,7 +11,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { links, manage } from "@/data/user-dropdown";
-import { LogOut } from "lucide-react";
+import { getUUIDClient } from "@/lib/utils/uuid_client";
 import Link from "next/link";
 
 const UserDropdown = () => {
@@ -23,7 +23,7 @@ const UserDropdown = () => {
           <AvatarFallback>SA</AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56" sideOffset={20}>
+      <DropdownMenuContent className="w-56" sideOffset={25}>
         <DropdownMenuGroup>
           {links.map((item, index) => (
             <DropdownMenuItem key={index} asChild>
@@ -44,10 +44,14 @@ const UserDropdown = () => {
             </DropdownMenuItem>
           ))}
         </DropdownMenuGroup>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem asChild className="p-0">
-          <SignOut />
-        </DropdownMenuItem>
+        {getUUIDClient() && (
+          <>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem asChild className="p-0">
+              <SignOut />
+            </DropdownMenuItem>
+          </>
+        )}
       </DropdownMenuContent>
     </DropdownMenu>
   );
