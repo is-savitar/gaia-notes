@@ -58,7 +58,7 @@
     "clsx": "^2.1.1",
     "cmdk": "1.0.0",
     "cookies-next": "^4.2.1",
-    "jose": "^5.9.3",
+    "jose": "^5.9.6",
     "lowlight": "^3.1.0",
     "lucide-react": "^0.445.0",
     "next": "15.0.1",
