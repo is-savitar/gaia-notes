@@ -31,6 +31,8 @@ import {
 	DialogFooter,
 	DialogClose,
 } from "@/components/ui/dialog";
+import { Content } from "@tiptap/react";
+import { MinimalTiptapEditor } from "@/_components/minimal-tiptap";
 
 const formSchema = z.object({
 	title: z.string({ required_error: "Enter a title for your blog" }).min(2, {
@@ -45,7 +47,7 @@ const formSchema = z.object({
 });
 
 const PostBlog = () => {
-	const [content, setContent] = useState("");
+	const [value, setValue] = useState<Content>("");
 	const [isLoading, setIsLoading] = useState(false);
 	const fileInputRef = useRef<HTMLInputElement>(null);
 	const [imagePreview, setImagePreview] = useState<string | null>(null);
@@ -99,6 +101,7 @@ const PostBlog = () => {
 			form.setValue("image", undefined);
 		}
 	};
+
 	return (
 		<main className="max-w-[1320px] mx-auto px-5 sm:px-4 py-14">
 			<Form {...form}>
@@ -223,8 +226,18 @@ const PostBlog = () => {
 							</FormItem>
 						)}
 					/>
-
-					<div className="self-end flex gap-4">
+					<MinimalTiptapEditor
+						value={value}
+						onChange={setValue}
+						className="w-full"
+						editorContentClassName="p-5"
+						output="html"
+						placeholder="Type your description here..."
+						autofocus={true}
+						editable={true}
+						editorClassName="focus:outline-none"
+					/>
+					<main className="self-end flex gap-4">
 						<Dialog>
 							<DialogTrigger asChild>
 								<Button type="button">Reset Content</Button>
@@ -250,7 +263,7 @@ const PostBlog = () => {
 						>
 							Post
 						</ButtonLoader>
-					</div>
+					</main>
 				</form>
 			</Form>
 		</main>
