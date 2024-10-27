@@ -14,7 +14,6 @@ export default async function isValidJWT(token: string) {
     const { payload } = await jwtVerify(token, secretKey);
 
     // You can return the payload for additional verification, or true if it's valid
-    console.log(payload, "here"); // Log the payload for debugging
     if (payload.user_id) {
       return true; // Return true if the token is valid
     }
