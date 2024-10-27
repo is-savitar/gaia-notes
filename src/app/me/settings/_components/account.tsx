@@ -4,6 +4,7 @@ import {
 	Dialog,
 	DialogContent,
 	DialogHeader,
+	DialogTitle,
 	DialogTrigger,
 } from "@/components/ui/dialog";
 import {
@@ -295,7 +296,7 @@ const Row: React.FC<{ row: RowData }> = ({ row }) => {
 			{row.modal && (
 				<DialogContent>
 					<DialogHeader className="text-lg font-medium text-center">
-						{row.title}
+						<DialogTitle>{row.title}</DialogTitle>
 					</DialogHeader>
 					<row.modal onClose={() => setOpen(false)} />
 				</DialogContent>

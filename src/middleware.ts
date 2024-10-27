@@ -1,33 +1,25 @@
-import { NextRequest, NextResponse } from "next/server";
-import { getUserCredentials } from "./lib/utils/auth/user-creds";
-import isValidJWT from "./lib/utils/auth/is-valid-jwt";
-import { deleteUserCreds } from "./lib/utils/auth/logout";
-import { deleteTokens } from "./lib/utils/uuid_client";
+import { type NextRequest, NextResponse } from "next/server";
+import { getUserCredentials } from "./lib/auth/session";
+import { withRefreshToken } from "./lib/auth/with-refresh-token";
 
-const protectedRoutes = [
-  "/api",
-  "/me/settings",
-  "/me/profile",
-  "/me/design",
-  "/me/notifications",
-];
+const protectedRoutes = ["/me/settings"];
 
-export async function middleware(req: NextRequest) {
-  const pathname = req.nextUrl.pathname;
+async function middleware(req: NextRequest) {
+	const pathname = req.nextUrl.pathname;
+	const creds = getUserCredentials();
 
-  const creds = getUserCredentials(req);
-  // console.log(creds, "middleware");
-  //
-  // if (
-  //   protectedRoutes.includes(pathname) &&
-  //   (!creds || !(await isValidJWT(creds?.refreshToken ?? "")))
-  // ) {
-  //   // deleteUserCreds(req);
-  //   deleteTokens();
-  //   console.log("TFFFF");
-  //   const res = NextResponse.redirect(new URL("/auth/login", req.url));
-  //   return res;
-  // }
+	// if (protectedRoutes.includes(pathname)) {
+	//   if (!creds || !(await isValidJWT(creds?.refreshToken as string))) {
+	//     console.log("Unauthorized access attempt");
+	//     return NextResponse.redirect(new URL("/auth", req.url));
+	//   }
+	// }
 
-  return NextResponse.next();
+	return NextResponse.next();
 }
+
+export default withRefreshToken(middleware);
+
+export const config = {
+	matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
+};
