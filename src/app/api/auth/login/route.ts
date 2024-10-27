@@ -4,6 +4,7 @@ import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
+  console.log("getting here");
   const body = await req.json();
   try {
     const res = await fetch(`${API_URL}/auth/login`, {
@@ -12,6 +13,11 @@ export async function POST(req: NextRequest) {
       body: JSON.stringify(body),
     });
     const data = await res.json();
+    console.log(JSON.stringify(res, null, 2));
+
+    console.log("Data");
+    console.log(JSON.stringify(data, null, 2));
+
     if (res.ok) {
       const cookieStore = cookies();
       saveUserTokens(data);
