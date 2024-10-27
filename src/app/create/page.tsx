@@ -46,13 +46,6 @@ const formSchema = z.object({
 
 const PostBlog = () => {
 	const [content, setContent] = useState("");
-	const editor = useMyEditor([
-		{
-			id: "1",
-			type: ParagraphPlugin.key,
-			children: [{ text: "Start writing your blog post here..." }],
-		},
-	]);
 	const [isLoading, setIsLoading] = useState(false);
 	const fileInputRef = useRef<HTMLInputElement>(null);
 	const [imagePreview, setImagePreview] = useState<string | null>(null);
@@ -246,9 +239,7 @@ const PostBlog = () => {
 								</DialogHeader>
 								<DialogFooter className="flex gap-3">
 									<DialogClose>Cancel</DialogClose>
-									<Button type="button" onClick={() => editor.tf.reset()}>
-										Confirm
-									</Button>
+									<Button type="button">Confirm</Button>
 								</DialogFooter>
 							</DialogContent>
 						</Dialog>
