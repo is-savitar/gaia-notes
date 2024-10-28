@@ -1,15 +1,33 @@
 "use server";
+import { ConflictError } from "@/exceptions";
+import makeFetch from "@/lib/fetch";
+import { unauthenticatedAction } from "@/lib/zsa";
+import type { User } from "@/types/user";
+import { z } from "zod";
 
-import { BASE_URL } from "@/lib/constants";
+export const authAction = unauthenticatedAction
+	.createServerAction()
+	.input(
+		z.object({
+			username: z.string(),
+			password: z.string(),
+		}),
+	)
+	.handler(async ({ input: { password, username } }) => {
+		const signUp = makeFetch<User>("/signup", null, {
+			method: "POST",
+			body: {
+				password,
+				username,
+			},
+		});
 
-export default async function signOut() {
-  try {
-    const res = await fetch(`${BASE_URL}/api/auth/logout`, {
-      method: "GET",
-    });
-    const data = await res.json();
-    console.log(data);
-  } catch (err) {
-    console.error(err);
-  }
-}
+		try {
+			return await signUp();
+		} catch (err) {
+			if (err instanceof ConflictError) {
+				console.log("lol login joor");
+			}
+			console.log(err);
+		}
+	});
